@@ -97,9 +97,14 @@ class Ftp
 	 * @desc	Uploads a file to the FTP server
 	 * @php		http://alsuave.info/917D5
 	 */
-	public function put( $remote_file, $prefix = "" )
+	public function put( $remote_file, $prefix = "", $rename = false )
 		{
-		$this->new_file_name	=	md5( strlen( $remote_file ) . rand( 5, 15 ) ) . "." . end( explode( ".", $remote_file ) );
+		if( $rename ){
+			$this->new_file_name	=	md5( strlen( $remote_file ) . rand( 5, 15 ) ) . "." . end( explode( ".", $remote_file ) );
+			}
+			else{
+				$this->new_file_name = $remote_file;
+				}
 		if( !ftp_put( $this->cnx , $this->new_file_name , $remote_file, FTP_BINARY ) )
 			{
 			$this->_error( "Error al intentar subir el archivo" );
